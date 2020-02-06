@@ -77,8 +77,19 @@ export class JsonPathPicker extends React.Component<P, S> {
                 choosen: choosenPath
             }, ()=> {
                 let pathText = this.state.choosen
-                pathText = pathText.replace(/ /g, '')
-                this.props.onChoose && this.props.onChoose(pathText)
+                // pathText = pathText.replace(/ /g, '')
+
+                let pathSplit = pathText.trim().split(" ");
+
+                for (let index = 0; index < pathSplit.length; index++) {
+                    if (pathSplit[index][0] === ".") {
+                        pathSplit[index] = `"${pathSplit[index].slice(1, pathSplit[index].length)}"`;
+                    } else if(isArray(pathSplit[index])) {
+                        pathSplit[index] = pathSplit[index][1];
+                    }
+                }
+
+                this.props.onChoose && this.props.onChoose(`[${pathSplit.join()}]`)
             })
 
         }
@@ -112,7 +123,10 @@ function isUrl(str: string) :boolean {
 function escape(str: string) :string {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
-
+function isArray(str: string) :boolean {
+    var regexp = /\[[0-9]\]/;
+    return regexp.test(str);
+}
 
 /**
  * recursively generate jsxs by json data

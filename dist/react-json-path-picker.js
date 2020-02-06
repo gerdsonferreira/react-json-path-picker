@@ -18,14 +18,14 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 require("./style.css");
-var JsonPathPicker = (function (_super) {
+var JsonPathPicker = /** @class */ (function (_super) {
     __extends(JsonPathPicker, _super);
     function JsonPathPicker(props) {
         var _this = _super.call(this, props) || this;
         _this.choose = function (e) {
             var target = e.target;
-            if (target.hasAttribute('data-pathKey')) {
-                var pathKey = target.getAttribute('data-pathKey');
+            if (target.hasAttribute('data-pathkey')) {
+                var pathKey = target.getAttribute('data-pathkey');
                 var choosenPath = void 0;
                 if (target.hasAttribute('data-choosearr')) {
                     choosenPath = _this.state.choosen;
@@ -41,8 +41,17 @@ var JsonPathPicker = (function (_super) {
                     choosen: choosenPath
                 }, function () {
                     var pathText = _this.state.choosen;
-                    pathText = pathText.replace(/ /g, '');
-                    _this.props.onChoose && _this.props.onChoose(pathText);
+                    // pathText = pathText.replace(/ /g, '')
+                    var pathSplit = pathText.trim().split(" ");
+                    for (var index = 0; index < pathSplit.length; index++) {
+                        if (pathSplit[index][0] === ".") {
+                            pathSplit[index] = "\"" + pathSplit[index].slice(1, pathSplit[index].length) + "\"";
+                        }
+                        else if (isArray(pathSplit[index])) {
+                            pathSplit[index] = pathSplit[index][1];
+                        }
+                    }
+                    _this.props.onChoose && _this.props.onChoose("[" + pathSplit.join() + "]");
                 });
             }
         };
@@ -52,14 +61,14 @@ var JsonPathPicker = (function (_super) {
         return _this;
     }
     JsonPathPicker.prototype.componentWillReceiveProps = function (nextp) {
-        if (nextp.json !== this.props.json) {
+        if (nextp.json !== this.props.json) { // string compare
             this.setState({
                 choosen: null // reset choosen
             });
         }
         if (nextp.path !== undefined) {
             var nextPath = void 0;
-            if (!nextp.path) {
+            if (!nextp.path) { // '' | null
                 nextPath = nextp.path;
             }
             else {
@@ -109,6 +118,10 @@ function isUrl(str) {
 function escape(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
+function isArray(str) {
+    var regexp = /\[[0-9]\]/;
+    return regexp.test(str);
+}
 /**
  * recursively generate jsxs by json data
  * @param choosenPath
@@ -148,7 +161,7 @@ function json2Jsx(choosenPath, jsonObj, isLast, pathKey) {
 // various types' render
 function renderNull(choosenPath, isLast, pathKey) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             'null',
             " ",
@@ -156,7 +169,7 @@ function renderNull(choosenPath, isLast, pathKey) {
 }
 function renderUndefined(choosenPath, isLast, pathKey) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             'undefined',
             " ",
@@ -166,7 +179,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
     str = escape(str);
     if (isUrl(str)) {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
             React.createElement("a", { target: "_blank", href: str, className: "json-literal" },
                 React.createElement("span", null,
                     "\"",
@@ -176,7 +189,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
     }
     else {
         return (React.createElement("span", { className: "json-literal" },
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "\"",
                 str,
@@ -186,7 +199,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
 }
 function renderNumber(choosenPath, isLast, pathKey, num) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             num,
             " ",
@@ -194,7 +207,7 @@ function renderNumber(choosenPath, isLast, pathKey, num) {
 }
 function renderBoolean(choosenPath, isLast, pathKey, bool) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             bool,
             " ",
@@ -208,7 +221,7 @@ function renderObject(choosenPath, isLast, pathKey, obj) {
         return (React.createElement("div", { className: relation == 1 ? "json-picked_tree" : '' },
             React.createElement("div", null,
                 React.createElement("span", null, '{'),
-                React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
+                React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
             React.createElement("ul", { className: "json-dict" }, keys.map(function (key, idx) {
                 var nextPathKey = pathKey + " ." + key;
                 return (React.createElement("li", { key: nextPathKey },
@@ -223,7 +236,7 @@ function renderObject(choosenPath, isLast, pathKey, obj) {
     }
     else {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "{ }",
                 " ",
@@ -236,9 +249,9 @@ function renderArray(choosenPath, isLast, pathKey, arr) {
     if (length > 0) {
         return (React.createElement("div", { className: relation == 1 ? "json-picked_tree" : '' },
             React.createElement("div", null,
-                relation == 2 ? React.createElement("i", { "data-pathKey": pathKey, "data-choosearr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
+                relation == 2 ? React.createElement("i", { "data-pathkey": pathKey, "data-choosearr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
                 React.createElement("span", null, '['),
-                React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
+                React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
             React.createElement("ol", { className: "json-array" }, arr.map(function (value, idx) {
                 var nextPathKey = pathKey + " [" + idx + "]";
                 return (React.createElement("li", { key: nextPathKey }, json2Jsx(choosenPath, value, idx == length - 1 ? true : false, nextPathKey)));
@@ -250,7 +263,7 @@ function renderArray(choosenPath, isLast, pathKey, arr) {
     }
     else {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "[ ]",
                 " ",

@@ -89,7 +89,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(2);
 var react_json_path_picker_1 = __webpack_require__(3);
-var Main = (function (_super) {
+var Main = /** @class */ (function (_super) {
     __extends(Main, _super);
     function Main(props) {
         var _this = _super.call(this, props) || this;
@@ -166,16 +166,16 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 __webpack_require__(4);
-var JsonPathPicker = (function (_super) {
+var JsonPathPicker = /** @class */ (function (_super) {
     __extends(JsonPathPicker, _super);
     function JsonPathPicker(props) {
         var _this = _super.call(this, props) || this;
         _this.choose = function (e) {
             var target = e.target;
-            if (target.hasAttribute('data-pathKey')) {
-                var pathKey = target.getAttribute('data-pathKey');
+            if (target.hasAttribute('data-pathkey')) {
+                var pathKey = target.getAttribute('data-pathkey');
                 var choosenPath = void 0;
-                if (target.hasAttribute('data-chooseArr')) {
+                if (target.hasAttribute('data-choosearr')) {
                     choosenPath = _this.state.choosen;
                     var tmp = choosenPath.split(' ');
                     var idx = pathKey.split(' ').length;
@@ -200,14 +200,14 @@ var JsonPathPicker = (function (_super) {
         return _this;
     }
     JsonPathPicker.prototype.componentWillReceiveProps = function (nextp) {
-        if (nextp.json !== this.props.json) {
+        if (nextp.json !== this.props.json) { // string compare
             this.setState({
                 choosen: null // reset choosen
             });
         }
         if (nextp.path !== undefined) {
             var nextPath = void 0;
-            if (!nextp.path) {
+            if (!nextp.path) { // '' | null
                 nextPath = nextp.path;
             }
             else {
@@ -296,7 +296,7 @@ function json2Jsx(choosenPath, jsonObj, isLast, pathKey) {
 // various types' render
 function renderNull(choosenPath, isLast, pathKey) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             'null',
             " ",
@@ -304,7 +304,7 @@ function renderNull(choosenPath, isLast, pathKey) {
 }
 function renderUndefined(choosenPath, isLast, pathKey) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             'undefined',
             " ",
@@ -314,7 +314,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
     str = escape(str);
     if (isUrl(str)) {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
             React.createElement("a", { target: "_blank", href: str, className: "json-literal" },
                 React.createElement("span", null,
                     "\"",
@@ -324,7 +324,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
     }
     else {
         return (React.createElement("span", { className: "json-literal" },
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "\"",
                 str,
@@ -334,7 +334,7 @@ function renderString(choosenPath, isLast, pathKey, str) {
 }
 function renderNumber(choosenPath, isLast, pathKey, num) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             num,
             " ",
@@ -342,7 +342,7 @@ function renderNumber(choosenPath, isLast, pathKey, num) {
 }
 function renderBoolean(choosenPath, isLast, pathKey, bool) {
     return (React.createElement("span", { className: "json-literal" },
-        React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
+        React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(getRelationship(choosenPath, pathKey)) }, "\uD83D\uDCCB"),
         React.createElement("span", null,
             bool,
             " ",
@@ -356,7 +356,7 @@ function renderObject(choosenPath, isLast, pathKey, obj) {
         return (React.createElement("div", { className: relation == 1 ? "json-picked_tree" : '' },
             React.createElement("div", null,
                 React.createElement("span", null, '{'),
-                React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
+                React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
             React.createElement("ul", { className: "json-dict" }, keys.map(function (key, idx) {
                 var nextPathKey = pathKey + " ." + key;
                 return (React.createElement("li", { key: nextPathKey },
@@ -371,7 +371,7 @@ function renderObject(choosenPath, isLast, pathKey, obj) {
     }
     else {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "{ }",
                 " ",
@@ -384,9 +384,9 @@ function renderArray(choosenPath, isLast, pathKey, arr) {
     if (length > 0) {
         return (React.createElement("div", { className: relation == 1 ? "json-picked_tree" : '' },
             React.createElement("div", null,
-                relation == 2 ? React.createElement("i", { "data-pathKey": pathKey, "data-chooseArr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
+                relation == 2 ? React.createElement("i", { "data-pathkey": pathKey, "data-choosearr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
                 React.createElement("span", null, '['),
-                React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
+                React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
             React.createElement("ol", { className: "json-array" }, arr.map(function (value, idx) {
                 var nextPathKey = pathKey + " [" + idx + "]";
                 return (React.createElement("li", { key: nextPathKey }, json2Jsx(choosenPath, value, idx == length - 1 ? true : false, nextPathKey)));
@@ -398,7 +398,7 @@ function renderArray(choosenPath, isLast, pathKey, arr) {
     }
     else {
         return (React.createElement("span", null,
-            React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
+            React.createElement("i", { "data-pathkey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB"),
             React.createElement("span", null,
                 "[ ]",
                 " ",
@@ -596,12 +596,12 @@ if(false) {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(6)(undefined);
+exports = module.exports = __webpack_require__(6)(false);
 // imports
 
 
 // module
-exports.push([module.i, "/* Syntax highlighting for JSON objects */\r\nul.json-dict, ol.json-array {\r\n  list-style-type: none;\r\n  margin: 0 0 0 1px;\r\n  border-left: 1px dotted #ccc;\r\n  padding-left: 2em;\r\n}\r\n.json-literal {\r\n  color: #777;\r\n}\r\n.json-key {\r\n  font-weight: bold;\r\n  color: #108ee9;\r\n}\r\n\r\n/* Copy path icon */\r\n.json-pick_path {\r\n  color: #ccc;\r\n  cursor: pointer;\r\n  margin-right: 12px;\r\n  margin-left: 5px;\r\n  font-style: normal;\r\n}\r\n\r\n.json-pick_path_ancestor {\r\n  color: #7f3dc5;\r\n}\r\n\r\n.json-pick_path:hover, .json-picked {\r\n  color: #f04134;\r\n}\r\n\r\n.json-picked_tree {\r\n  background: #eee;\r\n}\r\n\r\n.json-pick_arr {\r\n  position: relative;\r\n  right: 2px;\r\n  color: #ccc;\r\n  cursor: pointer;\r\n  font-style: normal;\r\n  font-weight: bold;\r\n  margin-left: -20px;\r\n}\r\n\r\n.json-pick_arr:hover, .json-picked_arr {\r\n  color: #f04134;\r\n}", ""]);
+exports.push([module.i, "/* Syntax highlighting for JSON objects */\nul.json-dict, ol.json-array {\n  list-style-type: none;\n  margin: 0 0 0 1px;\n  border-left: 1px dotted #ccc;\n  padding-left: 2em;\n}\n.json-literal {\n  color: #777;\n}\n.json-key {\n  font-weight: bold;\n  color: #108ee9;\n}\n\n/* Copy path icon */\n.json-pick_path {\n  color: #ccc;\n  cursor: pointer;\n  margin-right: 12px;\n  margin-left: 5px;\n  font-style: normal;\n}\n\n.json-pick_path_ancestor {\n  color: #7f3dc5;\n}\n\n.json-pick_path:hover, .json-picked {\n  color: #f04134;\n}\n\n.json-picked_tree {\n  background: #eee;\n}\n\n.json-pick_arr {\n  position: relative;\n  right: 2px;\n  color: #ccc;\n  cursor: pointer;\n  font-style: normal;\n  font-weight: bold;\n  margin-left: -20px;\n}\n\n.json-pick_arr:hover, .json-picked_arr {\n  color: #f04134;\n}", ""]);
 
 // exports
 
