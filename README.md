@@ -1,3 +1,5 @@
+A fork of JSONPath from http://goessner.net/articles/JsonPath/
+
 # react-json-path-picker
 It is a json path picker for react based on [json-path-picker](https://github.com/piotros/json-path-picker).
 You can use it to create a json tree of any legal json string. And then you can click to choose a node in the tree and got the path string of the node from tree's root.
@@ -40,3 +42,11 @@ onPickPath = (path)=> {
 if you have a json string like '[{"x":1}, {"x":2}, {"x":3}]', you can click '"x":1' and then click button before'[', and then you have choosed three x attr in array and finally get path string '[*].x'
 
 ![](https://github.com/zenggo/react-json-path-picker/blob/master/pic/2.png?raw=true)
+
+
+## Credits
+
+**React JSON path picker** is based on [jQuery json-path picker](https://github.com/piotros/json-path-picker) plugin.
+Its a fork by [React json-path picker] (https://github.com/zenggo/react-json-path-picker) plugin because don`t its work with react version 16.x.
+
+
