@@ -1,7 +1,7 @@
 {
-  "name": "react-v16-json-path-picker",
+  "name": "react-json-to-html-picker",
   "version": "1.0.0",
-  "description": "a react json path picker, based on json-path-picker",
+  "description": "a react json path picker, based on json-path-picker to version of react v16",
   "main": "index.js",
   "types": "./dist/react-json-path-picker.d.ts",
   "scripts": {
@@ -9,10 +9,10 @@
     "build-win": "tsc -d & copy .\\src\\style.css .\\dist\\style.css",
     "build-unix": "tsc -d && cp ./src/style.css ./dist/style.css"
   },
-  "author": "zenggo",
+  "author": "gerdson",
   "license": "ISC",
   "keywords": "json path",
-  "git repository": "https://github.com/zenggo/react-json-path-picker",
+  "git repository": "https://github.com/gerdsonferreira/react-json-path-picker",
   "dependencies": {
     "react": "^16.8.6"
   },
