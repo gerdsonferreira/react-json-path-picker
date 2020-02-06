@@ -1,5 +1,5 @@
 {
-  "name": "react-json-path-picker-v16",
+  "name": "react-v16-json-path-picker",
   "version": "1.0.0",
   "description": "a react json path picker, based on json-path-picker",
   "main": "index.js",
