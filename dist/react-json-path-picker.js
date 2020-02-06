@@ -27,7 +27,7 @@ var JsonPathPicker = (function (_super) {
             if (target.hasAttribute('data-pathKey')) {
                 var pathKey = target.getAttribute('data-pathKey');
                 var choosenPath = void 0;
-                if (target.hasAttribute('data-chooseArr')) {
+                if (target.hasAttribute('data-choosearr')) {
                     choosenPath = _this.state.choosen;
                     var tmp = choosenPath.split(' ');
                     var idx = pathKey.split(' ').length;
@@ -236,7 +236,7 @@ function renderArray(choosenPath, isLast, pathKey, arr) {
     if (length > 0) {
         return (React.createElement("div", { className: relation == 1 ? "json-picked_tree" : '' },
             React.createElement("div", null,
-                relation == 2 ? React.createElement("i", { "data-pathKey": pathKey, "data-chooseArr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
+                relation == 2 ? React.createElement("i", { "data-pathKey": pathKey, "data-choosearr": "1", className: getPickArrStyle(choosenPath, pathKey) }, "[\u271A]") : null,
                 React.createElement("span", null, '['),
                 React.createElement("i", { "data-pathKey": pathKey, className: getPickerStyle(relation) }, "\uD83D\uDCCB")),
             React.createElement("ol", { className: "json-array" }, arr.map(function (value, idx) {

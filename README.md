@@ -1,4 +1,4 @@
-A fork of JSONPath from http://goessner.net/articles/JsonPath/
+A fork of JSONPath from https://github.com/zenggo/react-json-path-picker to development for react v16.
 
 # react-json-path-picker
 It is a json path picker for react based on [json-path-picker](https://github.com/piotros/json-path-picker).
